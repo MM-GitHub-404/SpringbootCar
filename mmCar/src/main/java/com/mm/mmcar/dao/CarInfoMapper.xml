@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mm.mmcar.dao.CarInfoMapper">
+    <resultMap id="BaseResultMap" type="com.mm.mmcar.entity.CarInfo">
+        <id column="c_id" property="cId" jdbcType="INTEGER"/>
+        <result column="c_name" property="cName" jdbcType="VARCHAR"/>
+        <result column="c_content" property="cContent" jdbcType="VARCHAR"/>
+        <result column="c_price" property="cPrice" jdbcType="INTEGER"/>
+        <result column="c_image" property="cImage" jdbcType="VARCHAR"/>
+        <result column="c_number" property="cNumber" jdbcType="INTEGER"/>
+        <result column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="c_date" property="cDate" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        c_id, c_name, c_content, c_price, c_image, c_number, type_id, c_date
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mm.mmcar.entity.CarInfoExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from car_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from car_info
+        where c_id = #{cId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from car_info
+        where c_id = #{cId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.mm.mmcar.entity.CarInfoExample">
+        delete
+        from car_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.mm.mmcar.entity.CarInfo">
+        insert into car_info (c_id, c_name, c_content,
+                              c_price, c_image, c_number,
+                              type_id, c_date)
+        values (#{cId,jdbcType=INTEGER}, #{cName,jdbcType=VARCHAR}, #{cContent,jdbcType=VARCHAR},
+                #{cPrice,jdbcType=INTEGER}, #{cImage,jdbcType=VARCHAR}, #{cNumber,jdbcType=INTEGER},
+                #{typeId,jdbcType=INTEGER}, #{cDate,jdbcType=DATE})
+    </insert>
+    <insert id="insertSelective" parameterType="com.mm.mmcar.entity.CarInfo">
+        insert into car_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cId != null">
+                c_id,
+            </if>
+            <if test="cName != null">
+                c_name,
+            </if>
+            <if test="cContent != null">
+                c_content,
+            </if>
+            <if test="cPrice != null">
+                c_price,
+            </if>
+            <if test="cImage != null">
+                c_image,
+            </if>
+            <if test="cNumber != null">
+                c_number,
+            </if>
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="cDate != null">
+                c_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cId != null">
+                #{cId,jdbcType=INTEGER},
+            </if>
+            <if test="cName != null">
+                #{cName,jdbcType=VARCHAR},
+            </if>
+            <if test="cContent != null">
+                #{cContent,jdbcType=VARCHAR},
+            </if>
+            <if test="cPrice != null">
+                #{cPrice,jdbcType=INTEGER},
+            </if>
+            <if test="cImage != null">
+                #{cImage,jdbcType=VARCHAR},
+            </if>
+            <if test="cNumber != null">
+                #{cNumber,jdbcType=INTEGER},
+            </if>
+            <if test="typeId != null">
+                #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="cDate != null">
+                #{cDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.mm.mmcar.entity.CarInfoExample" resultType="java.lang.Integer">
+        select count(*)
+        from car_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update car_info
+        <set>
+            <if test="record.cId != null">
+                c_id = #{record.cId,jdbcType=INTEGER},
+            </if>
+            <if test="record.cName != null">
+                c_name = #{record.cName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cContent != null">
+                c_content = #{record.cContent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cPrice != null">
+                c_price = #{record.cPrice,jdbcType=INTEGER},
+            </if>
+            <if test="record.cImage != null">
+                c_image = #{record.cImage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cNumber != null">
+                c_number = #{record.cNumber,jdbcType=INTEGER},
+            </if>
+            <if test="record.typeId != null">
+                type_id = #{record.typeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.cDate != null">
+                c_date = #{record.cDate,jdbcType=DATE},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update car_info
+        set c_id      = #{record.cId,jdbcType=INTEGER},
+            c_name    = #{record.cName,jdbcType=VARCHAR},
+            c_content = #{record.cContent,jdbcType=VARCHAR},
+            c_price   = #{record.cPrice,jdbcType=INTEGER},
+            c_image   = #{record.cImage,jdbcType=VARCHAR},
+            c_number  = #{record.cNumber,jdbcType=INTEGER},
+            type_id   = #{record.typeId,jdbcType=INTEGER},
+            c_date    = #{record.cDate,jdbcType=DATE}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mm.mmcar.entity.CarInfo">
+        update car_info
+        <set>
+            <if test="cName != null">
+                c_name = #{cName,jdbcType=VARCHAR},
+            </if>
+            <if test="cContent != null">
+                c_content = #{cContent,jdbcType=VARCHAR},
+            </if>
+            <if test="cPrice != null">
+                c_price = #{cPrice,jdbcType=INTEGER},
+            </if>
+            <if test="cImage != null">
+                c_image = #{cImage,jdbcType=VARCHAR},
+            </if>
+            <if test="cNumber != null">
+                c_number = #{cNumber,jdbcType=INTEGER},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="cDate != null">
+                c_date = #{cDate,jdbcType=DATE},
+            </if>
+        </set>
+        where c_id = #{cId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mm.mmcar.entity.CarInfo">
+        update car_info
+        set c_name    = #{cName,jdbcType=VARCHAR},
+            c_content = #{cContent,jdbcType=VARCHAR},
+            c_price   = #{cPrice,jdbcType=INTEGER},
+            c_image   = #{cImage,jdbcType=VARCHAR},
+            c_number  = #{cNumber,jdbcType=INTEGER},
+            type_id   = #{typeId,jdbcType=INTEGER},
+            c_date    = #{cDate,jdbcType=DATE}
+        where c_id = #{cId,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteCarBatch">
+        delete
+        from car_info
+        where c_id in
+        <foreach collection="array" item="cId" separator="," open="(" close=")">
+            #{cId}
+        </foreach>
+    </delete>
+    <select id="selectConditions" parameterType="com.mm.mmcar.entity.vo.CarInfoVo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from car_info
+        <where>
+            <!--车型名称不为空,拼接车型名称查询条件-->
+            <if test="voName != null or voName != ''">
+                and c_name like '%${voName}%'
+            </if>
+            <!--车型类型不为空,拼接车型类型查询条件-->
+            <if test="voTypeId != null and voTypeId != -1">
+                and type_id =#{voTypeId}
+            </if>
+            <!--如果最低价格不为空,最高价格为空,则查询大于最低价格的所有车型-->
+            <if test="(lowestPrice != null and lowestPrice != '') and (highestPrice == null or highestPrice == '')">
+                and c_price &gt;= #{lowestPrice}
+            </if>
+            <!--如果最高价格不为空,最低价格为空,则查询小于最高价格的所有车型-->
+            <if test="(highestPrice != null and highestPrice !='') and (lowestPrice == null or lowestPrice == '')">
+                and c_price &lt;= #{highestPrice}
+            </if>
+            <!--如果最高和最低价格都不为空,则查询介于最高价格和最低价格之间的所有车型-->
+            <if test="(lowestPrice !=null and lowestPrice !='') and (highestPrice != null and highestPrice != '')">
+                and c_price between #{lowestPrice} and #{highestPrice}
+            </if>
+        </where>
+        order by c_id desc
+    </select>
+
+</mapper>
