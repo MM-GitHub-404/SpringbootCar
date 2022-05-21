@@ -23,11 +23,10 @@ public class AdminServiImpl implements AdminService {
     public Admin login(String userName, String passWord) {
         //首先创建对象,封装查询条件
         AdminExample ae = new AdminExample();
-        if (userName != null && passWord != null) {
-            ae.createCriteria().andANameEqualTo(userName);
-        } else {
+        if (userName==null){
             return null;
         }
+        ae.createCriteria().andANameEqualTo(userName);
         List<Admin> list = adminMapper.selectByExample(ae);
         if (list.size() > 0) {
             Admin admin = list.get(0);

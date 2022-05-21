@@ -52,7 +52,7 @@
         <form id="myform">
             车型名称：<input name="pname" id="pname">&nbsp;&nbsp;&nbsp;
             车型类型：<select name="typeid" id="typeid">
-            <option value="-1">请选择</option>
+            <option value="-1">所有类型</option>
             <c:forEach items="${carTypeList}" var="pt">
                 <option value="${pt.typeId}">${pt.typeName}</option>
             </c:forEach>
@@ -63,18 +63,18 @@
     </div>
     <br>
     <div id="table">
+        <div id="top">
+            <input type="checkbox" id="all" onclick="allClick()" style="margin-left: 50px">&nbsp;&nbsp;全选
+            <a href="${pageContext.request.contextPath}/admin/carAdd.jsp">
+                <input type="button" class="btn btn-warning" id="btn1"
+                       value="新增车型">
+            </a>
+            <input type="button" class="btn btn-warning" id="btn2"
+                   value="批量删除" onclick="deleteBatch(${info.pageNum})">
+        </div>
         <c:choose>
             <c:when test="${info.list.size()!=0}">
-                <div id="top">
-                    <input type="checkbox" id="all" onclick="allClick()" style="margin-left: 50px">&nbsp;&nbsp;全选
-                    <a href="${pageContext.request.contextPath}/admin/addcar.jsp">
 
-                        <input type="button" class="btn btn-warning" id="btn1"
-                               value="新增车型">
-                    </a>
-                    <input type="button" class="btn btn-warning" id="btn2"
-                           value="批量删除" onclick="deleteBatch(${info.pageNum})">
-                </div>
                 <!--显示分页后的车型-->
                 <div id="middle">
                     <table class="table table-bordered table-striped">
@@ -101,7 +101,7 @@
                                     <%--&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/product?flag=one&pid=${p.pId}">修改</a></td>--%>
                                 <td>
                                     <button type="button" class="btn btn-info "
-                                            onclick="one(${p.cId},${info.pageNum})">编辑
+                                            onclick="one(${p.cId},${info.pageNum})">修改
                                     </button>
                                     <button type="button" class="btn btn-warning" id="mydel"
                                             onclick="del(${p.cId},${info.pageNum})">删除
@@ -116,15 +116,12 @@
                             <nav aria-label="..." style="text-align:center;">
                                 <ul class="pagination">
                                     <li>
-                                            <%--                                        <a href="${pageContext.request.contextPath}/prod/split?page=${pb.prePage}" aria-label="Previous">--%>
                                         <a href="javascript:ajaxsplit(${info.prePage})" aria-label="Previous">
-
                                             <span aria-hidden="true">«</span></a>
                                     </li>
                                     <c:forEach begin="1" end="${info.pages}" var="i">
                                         <c:if test="${info.pageNum==i}">
                                             <li>
-                                                    <%--                                                <a href="${pageContext.request.contextPath}/prod/split?page=${i}" style="background-color: grey">${i}</a>--%>
                                                 <a href="javascript:ajaxsplit(${i})"
                                                    style="background-color: grey">${i}</a>
                                             </li>
@@ -137,7 +134,6 @@
                                         </c:if>
                                     </c:forEach>
                                     <li>
-                                            <%--  <a href="${pageContext.request.contextPath}/prod/split?page=1" aria-label="Next">--%>
                                         <a href="javascript:ajaxsplit(${info.nextPage})" aria-label="Next">
                                             <span aria-hidden="true">»</span></a>
                                     </li>
@@ -327,7 +323,6 @@
             var highestPrice = $("#hprice").val();
             $.ajax({
                 url: "${pageContext.request.contextPath}/car/deleteCar",
-                /*data: {"pid": pid, "page": page, "pname": pname, "typeid": typeid, "lprice": lprice, "hprice": hprice},*/
                 data: {
                     "cId": cId,
                     "page": page,
@@ -359,6 +354,10 @@
 <!--分页的AJAX实现-->
 <script type="text/javascript">
     function ajaxsplit(page) {
+        // 循环翻页
+        if (page == 0) {
+            page = 1
+        }
         //取出查询条件翻页
         var pname = $("#pname").val();
         var typeid = $("#typeid").val();

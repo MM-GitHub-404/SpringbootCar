@@ -70,19 +70,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.45</version>
-<!--            <classifier>jdk15</classifier>-->
         </dependency>
-<!--         Jackson Json处理工具包-->
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-databind</artifactId>-->
-<!--            <version>2.9.6</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.json</groupId>-->
-<!--            <artifactId>json</artifactId>-->
-<!--            <version>20140107</version>-->
-<!--        </dependency>-->
         <!-- 添加文件异步上传使用的依赖 -->
         <dependency>
             <groupId>commons-io</groupId>
