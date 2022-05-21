@@ -23,7 +23,6 @@ public class CarInfoServiceImpl implements CarInfoService {
     @Autowired
     CarInfoMapper carInfoMapper;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<CarInfo> selectAll() {
         //selectByExample方法参数为CarInfoExample类型
@@ -56,7 +55,9 @@ public class CarInfoServiceImpl implements CarInfoService {
     @Override
     @Transactional
     public int updateCarInfo(CarInfo carInfo) {
-        return carInfoMapper.updateByPrimaryKey(carInfo);
+        int num = carInfoMapper.updateByPrimaryKey(carInfo);
+        int a = 10 / 0;
+        return num;
     }
 
     @Override
