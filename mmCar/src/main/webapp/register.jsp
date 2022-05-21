@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 					</h3>
 			</div>
 			<div id="bottom">
-				<form action="${pageContext.request.contextPath}/admin/register" method="post">
+				<form action="${pageContext.request.contextPath}/home/register" method="post">
 					<table border="0px" id="table">
 						<tr>
 							<td class="td1">用户名：</td>

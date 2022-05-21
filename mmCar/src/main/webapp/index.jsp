@@ -20,7 +20,7 @@
             <h3/><%--<img src="${pageContext.request.contextPath}/images/cloud.jpg"/>--%><%--<span></span>--%>
     </div>
     <div id="bottom">
-        <form action="${pageContext.request.contextPath}/admin/login" method="post">
+        <form action="${pageContext.request.contextPath}/home/login" method="post">
             <table border="0px" id="table">
                 <tr>
                     <td class="td1">用户名：</td>
@@ -41,7 +41,7 @@
                 <tr>
                     <td></td>
                     <td><input type="submit" value="登录" class="td3">
-                        <a href="${pageContext.request.contextPath}/admin/regist.jsp">
+                        <a href="${pageContext.request.contextPath}/register.jsp">
                             <input type="button" value="注册" class="td3">
                         </a>
                     </td>

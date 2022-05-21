@@ -46,19 +46,19 @@
                         <li class="two"><span class="glyphicon glyphicon-book" style="color: white;"></span>&nbsp;&nbsp;&nbsp;&nbsp;车辆管理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                                 class="glyphicon glyphicon-play" style="color: white;"></span></li>
                     </a>
-                    <a href="${pageContext.request.contextPath}/admin/err.jsp" target="myright">
+                    <a href="${pageContext.request.contextPath}/main/order" target="myright">
                         <li class="one"><span class="glyphicon glyphicon-sort" style="color: white;"></span>&nbsp;&nbsp;&nbsp;&nbsp;订单管理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                                 class="glyphicon glyphicon-play" style="color: white;"></span></li>
                     </a>
-                    <a href="${pageContext.request.contextPath}/admin/user.jsp" target="myright">
+                    <a href="${pageContext.request.contextPath}/user/firstPage" target="myright">
                         <li class="one"><span class="glyphicon glyphicon-user" style="color: white;"></span>&nbsp;&nbsp;&nbsp;&nbsp;用户管理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                                 class="glyphicon glyphicon-play" style="color: white;"></span></li>
                     </a>
-                    <a href="${pageContext.request.contextPath}/admin/err.jsp" target="myright">
+                    <a href="${pageContext.request.contextPath}/main/bulletin" target="myright">
                         <li class="one"><span class="glyphicon glyphicon-bullhorn" style="color: white"></span>&nbsp;&nbsp;&nbsp;&nbsp;通知公告&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                                 class="glyphicon glyphicon-play" style="color: white;"></span></li>
                     </a>
-                    <a href="${pageContext.request.contextPath}/index.jsp">
+                    <a href="${pageContext.request.contextPath}/main/quit">
                         <li class="one"><span class="glyphicon glyphicon-user" style="color: white;"></span>&nbsp;&nbsp;&nbsp;&nbsp;退出登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                                 class="glyphicon glyphicon-play" style="color: white;"></span></li>
                     </a>

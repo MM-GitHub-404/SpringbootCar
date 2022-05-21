@@ -24,7 +24,7 @@
     function allClick() {
         //取得全选复选框的选中未选 中状态
         var ischeck = $("#all").prop("checked");
-        //将此状态赋值给每个会员列表里的复选框
+        //将此状态赋值给每个用户列表里的复选框
         $("input[name=ck]").each(function () {
             this.checked = ischeck;
         });
@@ -50,61 +50,66 @@
     </div>
     <div id="condition" style="text-align: center">
         <form id="myform">
-            会员名称：<input name="pname" id="pname">&nbsp;&nbsp;&nbsp;
-            会员类型：<select name="typeid" id="typeid">
-            <option value="-1">请选择</option>
-            <c:forEach items="${carTypeList}" var="pt">
+            用户昵称：<input name="pname" id="pname">&nbsp;&nbsp;&nbsp;
+            用户类型：<select name="typeid" id="typeid">
+            <option value="-1">所有类型</option>
+            <c:forEach items="${userTypeList}" var="pt">
                 <option value="${pt.typeId}">${pt.typeName}</option>
             </c:forEach>
         </select>&nbsp;&nbsp;&nbsp;
-            价格：<input name="lprice" id="lprice">-<input name="hprice" id="hprice">
+            积分：<input name="lprice" id="lprice">-<input name="hprice" id="hprice">
             <input type="button" value="查询" onclick="ajaxsplit(${pb.pageNum})">
         </form>
     </div>
     <br>
     <div id="table">
-        <c:choose>
-            <c:when test="${info.list.size()!=0}">
-                <div id="top">
-                    <input type="checkbox" id="all" onclick="allClick()" style="margin-left: 50px">&nbsp;&nbsp;全选
-                    <a href="${pageContext.request.contextPath}/admin/addcar.jsp">
+        <div id="top">
+            <input type="checkbox" id="all" onclick="allClick()" style="margin-left: 50px">&nbsp;&nbsp;全选
+            <a href="${pageContext.request.contextPath}/admin/userAdd.jsp">
 
-                        <input type="button" class="btn btn-warning" id="btn1"
-                               value="新增会员">
-                    </a>
-                    <input type="button" class="btn btn-warning" id="btn2"
-                           value="批量删除" onclick="deleteBatch(${info.pageNum})">
-                </div>
-                <!--显示分页后的会员-->
+                <input type="button" class="btn btn-warning" id="btn1"
+                       value="新增用户">
+            </a>
+            <input type="button" class="btn btn-warning" id="btn2"
+                   value="批量删除" onclick="deleteBatch(${userInfo.pageNum})">
+        </div>
+        <c:choose>
+            <c:when test="${userInfo.list.size()!=0}">
+                <!--显示分页后的用户-->
                 <div id="middle">
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th></th>
-                            <th>会员</th>
-                            <th>会员介绍</th>
-                            <th>定价（元）</th>
-                            <th>会员图片</th>
-                            <th>会员数量</th>
+                            <th>用户头像</th>
+                            <th>用户昵称</th>
+                            <th>用户账号</th>
+                            <th>用户类型</th>
+                            <th>用户积分</th>
                             <th>操作</th>
                         </tr>
-                        <c:forEach items="${info.list}" var="p">
+                        <c:forEach items="${userInfo.list}" var="p">
                             <tr>
                                 <td valign="center" align="center"><input type="checkbox" name="ck" id="ck"
-                                                                          value="${p.cId}" onclick="ckClick()"></td>
-                                <td>${p.cName}</td>
-                                <td>${p.cContent}</td>
-                                <td>${p.cPrice}</td>
+                                                                          value="${p.uId}" onclick="ckClick()"></td>
                                 <td><img width="55px" height="35px"
-                                         src="${pageContext.request.contextPath}/image_big/${p.cImage}"></td>
-                                <td>${p.cNumber}</td>
+                                         src="${pageContext.request.contextPath}/image_big/${p.uAvatar}"></td>
+                                <td>${p.uName}</td>
+                                <td>${p.uPhone}</td>
+                                <c:forEach items="${userTypeList}" var="pt">
+                                    <c:if test="${p.typeId==pt.typeId}">
+                                        <td>${pt.typeName}</td>
+                                    </c:if>
+                                </c:forEach>
+                                <td>${p.uIntegral}</td>
+
                                     <%--<td><a href="${pageContext.request.contextPath}/admin/product?flag=delete&pid=${p.pId}" onclick="return confirm('确定删除吗？')">删除</a>--%>
                                     <%--&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/admin/product?flag=one&pid=${p.pId}">修改</a></td>--%>
                                 <td>
                                     <button type="button" class="btn btn-info "
-                                            onclick="one(${p.cId},${info.pageNum})">编辑
+                                            onclick="one(${p.uId},${userInfo.pageNum})">修改
                                     </button>
                                     <button type="button" class="btn btn-warning" id="mydel"
-                                            onclick="del(${p.cId},${info.pageNum})">删除
+                                            onclick="del(${p.uId},${userInfo.pageNum})">删除
                                     </button>
                                 </td>
                             </tr>
@@ -117,19 +122,19 @@
                                 <ul class="pagination">
                                     <li>
                                             <%--                                        <a href="${pageContext.request.contextPath}/prod/split.action?page=${pb.prePage}" aria-label="Previous">--%>
-                                        <a href="javascript:ajaxsplit(${info.prePage})" aria-label="Previous">
+                                        <a href="javascript:ajaxsplit(${userInfo.prePage})" aria-label="Previous">
 
                                             <span aria-hidden="true">«</span></a>
                                     </li>
-                                    <c:forEach begin="1" end="${info.pages}" var="i">
-                                        <c:if test="${info.pageNum==i}">
+                                    <c:forEach begin="1" end="${userInfo.pages}" var="i">
+                                        <c:if test="${userInfo.pageNum==i}">
                                             <li>
                                                     <%--                                                <a href="${pageContext.request.contextPath}/prod/split.action?page=${i}" style="background-color: grey">${i}</a>--%>
                                                 <a href="javascript:ajaxsplit(${i})"
                                                    style="background-color: grey">${i}</a>
                                             </li>
                                         </c:if>
-                                        <c:if test="${info.pageNum!=i}">
+                                        <c:if test="${userInfo.pageNum!=i}">
                                             <li>
                                                     <%--                                                <a href="${pageContext.request.contextPath}/prod/split.action?page=${i}">${i}</a>--%>
                                                 <a href="javascript:ajaxsplit(${i})">${i}</a>
@@ -138,16 +143,16 @@
                                     </c:forEach>
                                     <li>
                                             <%--  <a href="${pageContext.request.contextPath}/prod/split.action?page=1" aria-label="Next">--%>
-                                        <a href="javascript:ajaxsplit(${info.nextPage})" aria-label="Next">
+                                        <a href="javascript:ajaxsplit(${userInfo.nextPage})" aria-label="Next">
                                             <span aria-hidden="true">»</span></a>
                                     </li>
                                     <li style=" margin-left:150px;color: #0e90d2;height: 35px; line-height: 35px;">总共&nbsp;&nbsp;&nbsp;<font
-                                            style="color:orange;">${info.pages}</font>&nbsp;&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <c:if test="${info.pageNum!=0}">
+                                            style="color:orange;">${userInfo.pages}</font>&nbsp;&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <c:if test="${userInfo.pageNum!=0}">
                                             当前&nbsp;&nbsp;&nbsp;<font
-                                            style="color:orange;">${info.pageNum}</font>&nbsp;&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            style="color:orange;">${userInfo.pageNum}</font>&nbsp;&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         </c:if>
-                                        <c:if test="${info.pageNum==0}">
+                                        <c:if test="${userInfo.pageNum==0}">
                                             当前&nbsp;&nbsp;&nbsp;<font
                                             style="color:orange;">1</font>&nbsp;&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         </c:if>
@@ -160,7 +165,7 @@
             </c:when>
             <c:otherwise>
                 <div>
-                    <h2 style="width:1200px; text-align: center;color: orangered;margin-top: 100px">暂时没有符合条件的会员！</h2>
+                    <h2 style="width:1200px; text-align: center;color: orangered;margin-top: 100px">暂时没有符合条件的用户！</h2>
                 </div>
             </c:otherwise>
         </c:choose>
@@ -172,14 +177,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">新增会员</h4>
+                <h4 class="modal-title" id="myModalLabel">新增用户</h4>
             </div>
             <div class="modal-body" id="addTD">
                 <form action="${pageContext.request.contextPath}/admin/product?flag=save" enctype="multipart/form-data"
                       method="post" id="myform">
                     <table>
                         <tr>
-                            <td class="one">会员名称</td>
+                            <td class="one">用户名称</td>
                             <td><input type="text" name="pname" class="two" class="form-control"></td>
                         </tr>
                         <!--错误提示-->
@@ -188,7 +193,7 @@
                             <td><span id="pnameerr"></span></td>
                         </tr>
                         <tr>
-                            <td class="one">会员介绍</td>
+                            <td class="one">用户介绍</td>
                             <td><input type="text" name="pcontent" class="two" class="form-control"></td>
                         </tr>
                         <!--错误提示-->
@@ -282,15 +287,15 @@
     //批量删除
     function deleteBatch(page) {
         if (confirm("确定删除吗")) {
-            //取得所有被选中删除会员的pid
+            //取得所有被选中删除用户的pid
             var zhi = $("input[name=ck]:checked");
             var str = "";
             var id = "";
             if (zhi.length == 0) {
-                alert("请选择将要删除的会员！");
+                alert("请选择将要删除的用户！");
             } else {
-                // 有选中的会员，则取出每个选 中会员的ID，拼提交的ID的数据
-                if (confirm("您确定删除" + zhi.length + "条会员吗？")) {
+                // 有选中的用户，则取出每个选 中用户的ID，拼提交的ID的数据
+                if (confirm("您确定删除" + zhi.length + "条用户吗？")) {
                     //拼接ID
                     $.each(zhi, function () {
                         id = $(this).val();
@@ -303,17 +308,9 @@
                     var lowestPrice = $("#lprice").val();
                     var highestPrice = $("#hprice").val();
                     $.ajax({
-                        url: "${pageContext.request.contextPath}/car/deleteCarBatch.action",
-                        /*data: {
-                            "pids": str,
-                            "page": page,
-                            "pname": pname,
-                            "typeid": typeid,
-                            "lprice": lprice,
-                            "hprice": hprice
-                        },*/
+                        url: "${pageContext.request.contextPath}/user/deleteUserBatch",
                         data: {
-                            "cIds": str,
+                            "uIds": str,
                             "page": page,
                             "voName": voName,
                             "voTypeId": voTypeId,
@@ -324,7 +321,7 @@
                         dataType: "text",
                         success: function (msg) {
                             alert(msg);//弹删除是否成功
-                            $("#table").load("http://localhost:8080/admin/car.jsp #table")
+                            $("#table").load("${pageContext.request.contextPath}/admin/user.jsp #table")
                         }
                     });
                 }
@@ -335,7 +332,7 @@
     }
 
     //单个删除
-    function del(cId, page) {
+    function del(uId, page) {
         if (confirm("确定删除吗")) {
             //取出查询条件
             var voName = $("#pname").val();
@@ -343,10 +340,9 @@
             var lowestPrice = $("#lprice").val();
             var highestPrice = $("#hprice").val();
             $.ajax({
-                url: "${pageContext.request.contextPath}/car/deleteCar.action",
-                /*data: {"pid": pid, "page": page, "pname": pname, "typeid": typeid, "lprice": lprice, "hprice": hprice},*/
+                url: "${pageContext.request.contextPath}/user/deleteUser",
                 data: {
-                    "cId": cId,
+                    "uId": uId,
                     "page": page,
                     "voName": voName,
                     "voTypeId": voTypeId,
@@ -354,32 +350,30 @@
                     "highestPrice": highestPrice
                 },
                 type: "post",
-                /*dataType: "json",*/
                 dataType: "text",
                 success: function (msg) {
                     alert(msg);//弹删除是否成功
-                    $("#table").load("http://localhost:8080/admin/car.jsp #table")
+                    $("#table").load("${pageContext.request.contextPath}/admin/user.jsp #table")
                 }
-                /*success: function (data) {
-                    alert(data.msg);//弹删除是否成功
-                    $("#table").load("http://localhost:8080/admin/car.jsp #table")
-                }*/
             });
         }
     }
 
-    function one(cId, page) {
+    function one(uId, page) {
         var voName = $("#pname").val();
         var voTypeId = $("#typeid").val();
         var lowestPrice = $("#lprice").val();
         var highestPrice = $("#hprice").val();
-        var str = "?cId=" + cId + "&page=" + page + "&voName=" + voName + "&voTypeId=" + voTypeId + "&lowestPrice=" + lowestPrice + "&highestPrice=" + highestPrice;
-        location.href = "${pageContext.request.contextPath}/car/selectByIdCar.action" + str;/* + "&page=" + ispage*/
+        var str = "?uId=" + uId + "&page=" + page + "&voName=" + voName + "&voTypeId=" + voTypeId + "&lowestPrice=" + lowestPrice + "&highestPrice=" + highestPrice;
+        location.href = "${pageContext.request.contextPath}/user/selectByIdUser" + str;/* + "&page=" + ispage*/
     }
 </script>
 <!--分页的AJAX实现-->
 <script type="text/javascript">
     function ajaxsplit(page) {
+        if (page == 0) {
+            page = 1
+        }
         //取出查询条件翻页
         var pname = $("#pname").val();
         var typeid = $("#typeid").val();
@@ -387,10 +381,10 @@
         var hprice = $("#hprice").val();
         $.ajax({
             type: "post",
-            url: "${pageContext.request.contextPath}/car/turnPages.action",
+            url: "${pageContext.request.contextPath}/user/turnPages",
             data: {"page": page, "voName": pname, "voTypeId": typeid, "lowestPrice": lprice, "highestPrice": hprice},
             success: function () {
-                $("#table").load("http://localhost:8080/admin/car.jsp #table");
+                $("#table").load("${pageContext.request.contextPath}/admin/user.jsp #table");
             }
         });
     }

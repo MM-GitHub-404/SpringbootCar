@@ -43,6 +43,7 @@ public class CarInfoServiceImpl implements CarInfoService {
     }
 
     @Override
+    @Transactional
     public int insertCar(CarInfo carInfo) {
         return carInfoMapper.insert(carInfo);
     }
@@ -53,16 +54,19 @@ public class CarInfoServiceImpl implements CarInfoService {
     }
 
     @Override
+    @Transactional
     public int updateCarInfo(CarInfo carInfo) {
         return carInfoMapper.updateByPrimaryKey(carInfo);
     }
 
     @Override
+    @Transactional
     public Integer deleteCar(int cId) {
         return carInfoMapper.deleteByPrimaryKey(cId);
     }
 
     @Override
+    @Transactional
     public int deleteCarBatch(String[] cIds) {
         return carInfoMapper.deleteCarBatch(cIds);
     }

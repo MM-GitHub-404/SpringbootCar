@@ -23,13 +23,17 @@ public class AdminServiImpl implements AdminService {
     public Admin login(String userName, String passWord) {
         //首先创建对象,封装查询条件
         AdminExample ae = new AdminExample();
-        ae.createCriteria().andANameEqualTo(userName);
+        if (userName != null && passWord != null) {
+            ae.createCriteria().andANameEqualTo(userName);
+        } else {
+            return null;
+        }
         List<Admin> list = adminMapper.selectByExample(ae);
         if (list.size() > 0) {
             Admin admin = list.get(0);
             //通过MD5Util加密后与数据库中密码对比
             String pw = MD5Util.getMD5(passWord);
-            if (pw.equals(admin.getaPass())) {
+            if (admin.getaPass().equals(pw)) {
                 return admin;
             }
         }

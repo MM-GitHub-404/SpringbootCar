@@ -1,5 +1,6 @@
 package com.mm.mmcar.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.mm.mmcar.entity.CarInfo;
 import com.mm.mmcar.entity.vo.CarInfoVo;
@@ -25,10 +26,10 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/car")
-public class CarInfoController {
+public class CarController {
 
     //设置分页显示每页条数
-    private static final int PAGE_SIZE = 7;
+    private static final int CAR_PAGE_SIZE = 7;
     //异步上传汽车图片的名称
     String uploadFileName = "";
 
@@ -49,12 +50,12 @@ public class CarInfoController {
         Object voObjet = request.getSession().getAttribute("carInfoVo");
         //有条件调用多条件查询方法
         if (voObjet != null) {
-            info = carInfoService.selectConditionPagination((CarInfoVo) voObjet, PAGE_SIZE);
+            info = carInfoService.selectConditionPagination((CarInfoVo) voObjet, CAR_PAGE_SIZE);
             //传入参数后将清理会话作用域中的无用对象
             request.getSession().removeAttribute("carInfoVo");
             //否则只返回所有结果的第一页记录
         } else {
-            info = carInfoService.pagination(1, PAGE_SIZE);
+            info = carInfoService.pagination(1, CAR_PAGE_SIZE);
         }
         //将查询结果封装为PageInfo类型属性赋予请求作用域返回car页面
         request.setAttribute("info", info);
@@ -65,7 +66,7 @@ public class CarInfoController {
     @RequestMapping("/turnPages")
     public void turnPages(CarInfoVo carInfoVo, HttpSession httpSession) {
         //取出carInfoVo中带有要跳转到的页数page参数,调用selectConditionPagination()进行翻页
-        PageInfo info = carInfoService.selectConditionPagination(carInfoVo, PAGE_SIZE);
+        PageInfo info = carInfoService.selectConditionPagination(carInfoVo, CAR_PAGE_SIZE);
         httpSession.setAttribute("info", info);
     }
 
@@ -82,11 +83,10 @@ public class CarInfoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //将文件名转为json格式返回
-//        JSONObject object = new JSONObject();
-//        object.put("imgurl", uploadFileName);
-//        return object.toString();
-        return "true";
+        //将文件名转为json格式返回,供前端在使用修改,新增功能时上传图片及时回显
+        JSONObject object = new JSONObject();
+        object.put("imgurl", uploadFileName);
+        return object.toString();
     }
 
     @RequestMapping("/newCar")
@@ -120,7 +120,7 @@ public class CarInfoController {
         model.addAttribute("prod", info);
         //在会话作用域设置carInfoVo变量承载前端获得的查询条件,留置
         httpSession.setAttribute("carInfoVo", carInfoVo);
-        return "admin/update";
+        return "admin/carUpdate";
     }
 
     @RequestMapping("/updateCarInfo")
@@ -177,10 +177,10 @@ public class CarInfoController {
         Object vo = request.getSession().getAttribute("deleteCarVo");
         //如果对象不为空则获取应跳转回的页面状态的车辆信息,否则获取第一页车辆信息
         if (vo != null) {
-            pageInfo = carInfoService.selectConditionPagination((CarInfoVo) vo, PAGE_SIZE);
+            pageInfo = carInfoService.selectConditionPagination((CarInfoVo) vo, CAR_PAGE_SIZE);
             request.getSession().removeAttribute("deleteCarVo");
         } else {
-            pageInfo = carInfoService.pagination(1, PAGE_SIZE);
+            pageInfo = carInfoService.pagination(1, CAR_PAGE_SIZE);
         }
         //将查询集合放入会话作用域中供前端获取信息(刷新页面)
         request.getSession().setAttribute("info", pageInfo);

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mm.mmcar.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mm.mmcar.entity.UserInfo">
+    <id column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
+    <result column="u_integral" jdbcType="INTEGER" property="uIntegral" />
+    <result column="u_avatar" jdbcType="VARCHAR" property="uAvatar" />
+    <result column="u_phone" jdbcType="INTEGER" property="uPhone" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="u_date" jdbcType="DATE" property="uDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    u_id, u_name, u_integral, u_avatar, u_phone, type_id, u_date
+  </sql>
+  <select id="selectByExample" parameterType="com.mm.mmcar.entity.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where u_id = #{uId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mm.mmcar.entity.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mm.mmcar.entity.UserInfo">
+    insert into user_info (u_id, u_name, u_integral, 
+      u_avatar, u_phone, type_id, 
+      u_date)
+    values (#{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{uIntegral,jdbcType=INTEGER}, 
+      #{uAvatar,jdbcType=VARCHAR}, #{uPhone,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{uDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mm.mmcar.entity.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="uName != null">
+        u_name,
+      </if>
+      <if test="uIntegral != null">
+        u_integral,
+      </if>
+      <if test="uAvatar != null">
+        u_avatar,
+      </if>
+      <if test="uPhone != null">
+        u_phone,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="uDate != null">
+        u_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null">
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uIntegral != null">
+        #{uIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="uAvatar != null">
+        #{uAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="uPhone != null">
+        #{uPhone,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="uDate != null">
+        #{uDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mm.mmcar.entity.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.uId != null">
+        u_id = #{record.uId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uName != null">
+        u_name = #{record.uName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uIntegral != null">
+        u_integral = #{record.uIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="record.uAvatar != null">
+        u_avatar = #{record.uAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uPhone != null">
+        u_phone = #{record.uPhone,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uDate != null">
+        u_date = #{record.uDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set u_id = #{record.uId,jdbcType=INTEGER},
+      u_name = #{record.uName,jdbcType=VARCHAR},
+      u_integral = #{record.uIntegral,jdbcType=INTEGER},
+      u_avatar = #{record.uAvatar,jdbcType=VARCHAR},
+      u_phone = #{record.uPhone,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      u_date = #{record.uDate,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mm.mmcar.entity.UserInfo">
+    update user_info
+    <set>
+      <if test="uName != null">
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uIntegral != null">
+        u_integral = #{uIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="uAvatar != null">
+        u_avatar = #{uAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="uPhone != null">
+        u_phone = #{uPhone,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="uDate != null">
+        u_date = #{uDate,jdbcType=DATE},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mm.mmcar.entity.UserInfo">
+    update user_info
+    set u_name = #{uName,jdbcType=VARCHAR},
+      u_integral = #{uIntegral,jdbcType=INTEGER},
+      u_avatar = #{uAvatar,jdbcType=VARCHAR},
+      u_phone = #{uPhone,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      u_date = #{uDate,jdbcType=DATE}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteUserBatch">
+    delete
+    from user_info
+    where u_id in
+    <foreach collection="array" item="uId" separator="," open="(" close=")">
+      #{uId}
+    </foreach>
+  </delete>
+
+  <select id="selectConditions" parameterType="com.mm.mmcar.entity.vo.UserInfoVo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user_info
+    <where>
+      <!--用户名不为空,拼接用户名查询条件-->
+      <if test="voName != null or voName != ''">
+        and u_name like '%${voName}%'
+      </if>
+      <!--用户类型不为空,拼接用户类型查询条件-->
+      <if test="voTypeId != null and voTypeId != -1">
+        and type_id =#{voTypeId}
+      </if>
+      <!--如果最低积分不为空,最高积分为空,则查询大于最低积分的所有用户-->
+      <if test="(lowestPrice != null and lowestPrice != '') and (highestPrice == null or highestPrice == '')">
+        and u_integral &gt;= #{lowestPrice}
+      </if>
+      <!--如果最高积分不为空,最低积分为空,则查询小于最高积分的所有用户-->
+      <if test="(highestPrice != null and highestPrice !='') and (lowestPrice == null or lowestPrice == '')">
+        and u_integral &lt;= #{highestPrice}
+      </if>
+      <!--如果最高和最低积分都不为空,则查询介于最高积分和最低积分之间的所有用户-->
+      <if test="(lowestPrice !=null and lowestPrice !='') and (highestPrice != null and highestPrice != '')">
+        and u_integral between #{lowestPrice} and #{highestPrice}
+      </if>
+    </where>
+    order by u_id desc
+  </select>
+</mapper>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
  * @create 2022-05-16 19:49
  */
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/home")
 public class AdminController {
     @Autowired
     AdminService adminService;
@@ -26,7 +26,7 @@ public class AdminController {
         if (admin != null) {
             //登录成功后获取登录用户名,添加欢迎信息,跳转main界面
             request.setAttribute("name", admin.getaName());
-            session.setAttribute("token", "have");
+            session.setAttribute("userInfo", admin.getaName());
             return "admin/main";
         }
         //登陆失败后添加错误信息,重回login界面.
