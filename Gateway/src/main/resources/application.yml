@@ -1,0 +1,57 @@
+#启动端口
+server:
+  port: 80
+
+spring:
+  application:
+    #服务名字
+    name: Gateway
+  cloud:
+    #配置网关
+    gateway:
+      discovery:
+        locator:
+          #启用DiscoveryClient网关集成，可以实现服务的发现
+          enabled: true
+
+      #配置网关路由转发规则
+      routes:
+        - id: route1
+          uri: lb://ConsumerCar
+          predicates:
+            - Path=/**
+    nacos:
+      discovery:
+        server-addr: 192.168.24.128:8848
+      password: nacos
+      username: nacos
+
+    #sentinel dashboard管理后台
+    sentinel:
+      transport:
+        dashboard: 192.168.24.128:8080
+      #配置sentinel规则持久化到nacos
+#      datasource:
+#        ds1:
+#          nacos:
+#            server-addr: 192.168.24.128:8848
+#            data-id: ${spring.application.name}.json
+#            group-id: DEFAULT_GROUP
+#            data-type: json
+#            rule-type: flow
+
+#spring boot actuator 监控端点
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+  health:
+    sentinel:
+      enabled: false
